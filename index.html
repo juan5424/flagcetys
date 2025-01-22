@@ -1,62 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marcador Flag</title>
+  <title>Flag Football Scoreboard</title>
   <script type="module" src="app.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      background-color: #282c34;
+      background: linear-gradient(135deg, #1e1e2f, #2e2e44);
       color: white;
       margin: 0;
       padding: 20px;
     }
+
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      color: #f5f5f5;
+      text-shadow: 2px 2px 4px #000;
     }
+
     .scoreboard {
       display: flex;
       justify-content: center;
       gap: 50px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
     }
+
     .team {
-      font-size: 24px;
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 300px;
     }
+
+    .team h2 {
+      margin-bottom: 10px;
+    }
+
+    .score {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .buttons {
+      display: flex;
+      /* Usar flexbox para organizar los botones */
+      flex-wrap: wrap;
+      /* Permitir que los botones se envuelvan si no hay espacio */
+      justify-content: center;
+      /* Centrar los botones horizontalmente */
+      gap: 10px;
+      /* Espacio entre botones */
+      margin-top: 15px;
+    }
+
     button {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 18px;
+      padding: 15px 15px;
+      font-size: 14px;
       cursor: pointer;
       background-color: #61dafb;
       border: none;
       border-radius: 5px;
+      transition: background-color 0.3s;
+      flex: 1 1 calc(30% - 10px);
+      /* Cada botón ocupa un 30% del ancho disponible */
+      max-width: 100px;
+      /* Ancho máximo para evitar botones muy grandes */
     }
+
     button:hover {
       background-color: #21a1f1;
     }
+
+    #reset {
+      margin-top: 20px;
+      padding: 10px 10px;
+      background-color: #ff6b6b;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      
+    }
+
+    #reset:hover {
+      background-color: #ff4c4c;
+    }
   </style>
 </head>
+
 <body>
-  <h1>Marcador Flag</h1>
+  <h1>Flag Football Scoreboard - Cetys Universidad</h1>
   <div class="scoreboard">
     <div class="team">
       <h2>Equipo Local</h2>
-      <p id="homeScore">0</p>
-      <button id="homeAdd6">+6</button>
-      <button id="homeAdd2">+2</button>
-      <button id="homeSubtract">-1</button>
+      <div id="homeScore" class="score">00</div>
+      <div class="buttons">
+        <button id="homeAdd6">Touchdown +6</button>
+        <button id="homeAdd1">Conversión +1</button>
+        <button id="homeAdd2">Conversión +2</button>
+        <button id="homeSubtract6">-6</button>
+        <button id="homeSubtract1">-1</button>
+        <button id="homeSubtract2">-2</button>
+      </div>
     </div>
     <div class="team">
       <h2>Equipo Visitante</h2>
-      <p id="awayScore">0</p>
-      <button id="awayAdd6">+6</button>
-      <button id="awayAdd2">+2</button>
-      <button id="awaySubtract">-1</button>
+      <div id="awayScore" class="score">00</div>
+      <div class="buttons">
+        <button id="awayAdd6">Touchdown +6</button>
+        <button id="awayAdd1">Conversión +1</button>
+        <button id="awayAdd2">Conversión +2</button>
+        <button id="awaySubtract6">-6</button>
+        <button id="awaySubtract1">-1</button>
+        <button id="awaySubtract2">-2</button>
+      </div>
     </div>
   </div>
+  <button id="reset">Resetear</button>
 </body>
+
 </html>

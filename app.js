@@ -1,6 +1,6 @@
 // Importa Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
-import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -22,18 +22,21 @@ const db = getDatabase(app);
 const homeScoreRef = ref(db, 'scoreboard/home');
 const awayScoreRef = ref(db, 'scoreboard/away');
 
+// Función para formatear los puntajes a dos dígitos
+const formatScore = (score) => (score < 10 ? `0${score}` : score);
+
 // Actualizar puntajes en tiempo real
 onValue(homeScoreRef, (snapshot) => {
-  const homeScore = snapshot.val();
-  document.getElementById('homeScore').textContent = homeScore || 0;
+  const homeScore = snapshot.val() || 0;
+  document.getElementById('homeScore').textContent = formatScore(homeScore);
 });
 
 onValue(awayScoreRef, (snapshot) => {
-  const awayScore = snapshot.val();
-  document.getElementById('awayScore').textContent = awayScore || 0;
+  const awayScore = snapshot.val() || 0;
+  document.getElementById('awayScore').textContent = formatScore(awayScore);
 });
 
-// Funciones para actualizar puntajes
+// Función para actualizar puntajes
 const updateScore = (teamRef, change) => {
   onValue(teamRef, (snapshot) => {
     const currentScore = snapshot.val() || 0;
@@ -44,9 +47,21 @@ const updateScore = (teamRef, change) => {
 
 // Manejo de eventos para botones
 document.getElementById('homeAdd6').addEventListener('click', () => updateScore(homeScoreRef, 6));
+document.getElementById('homeAdd1').addEventListener('click', () => updateScore(homeScoreRef, 1));
 document.getElementById('homeAdd2').addEventListener('click', () => updateScore(homeScoreRef, 2));
-document.getElementById('homeSubtract').addEventListener('click', () => updateScore(homeScoreRef, -1));
+document.getElementById('homeSubtract6').addEventListener('click', () => updateScore(homeScoreRef, -6));
+document.getElementById('homeSubtract1').addEventListener('click', () => updateScore(homeScoreRef, -1));
+document.getElementById('homeSubtract2').addEventListener('click', () => updateScore(homeScoreRef, -2));
 
 document.getElementById('awayAdd6').addEventListener('click', () => updateScore(awayScoreRef, 6));
+document.getElementById('awayAdd1').addEventListener('click', () => updateScore(awayScoreRef, 1));
 document.getElementById('awayAdd2').addEventListener('click', () => updateScore(awayScoreRef, 2));
-document.getElementById('awaySubtract').addEventListener('click', () => updateScore(awayScoreRef, -1));
+document.getElementById('awaySubtract6').addEventListener('click', () => updateScore(awayScoreRef, -6));
+document.getElementById('awaySubtract1').addEventListener('click', () => updateScore(awayScoreRef, -1));
+document.getElementById('awaySubtract2').addEventListener('click', () => updateScore(awayScoreRef, -2));
+
+// Botón para resetear marcadores
+document.getElementById('reset').addEventListener('click', () => {
+  set(homeScoreRef, 0);
+  set(awayScoreRef, 0);
+});

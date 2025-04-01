@@ -1,132 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flag Football Scoreboard</title>
-  <script type="module" src="app.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(135deg, #1e1e2f, #2e2e44);
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      margin-bottom: 30px;
-      color: #f5f5f5;
-      text-shadow: 2px 2px 4px #000;
-    }
-
-    .scoreboard {
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
-    }
-
-    .team {
-      background: #fff;
-      color: #000;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      width: 300px;
-    }
-
-    .team h2 {
-      margin-bottom: 10px;
-    }
-
-    .score {
-      font-size: 48px;
-      font-weight: bold;
-      margin: 20px 0;
-    }
-
-    .buttons {
-      display: flex;
-      /* Usar flexbox para organizar los botones */
-      flex-wrap: wrap;
-      /* Permitir que los botones se envuelvan si no hay espacio */
-      justify-content: center;
-      /* Centrar los botones horizontalmente */
-      gap: 10px;
-      /* Espacio entre botones */
-      margin-top: 15px;
-    }
-
-    button {
-      padding: 15px 15px;
-      font-size: 14px;
-      cursor: pointer;
-      background-color: #61dafb;
-      border: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-      flex: 1 1 calc(30% - 10px);
-      /* Cada botón ocupa un 30% del ancho disponible */
-      max-width: 100px;
-      /* Ancho máximo para evitar botones muy grandes */
-    }
-
-    button:hover {
-      background-color: #21a1f1;
-    }
-
-    #reset {
-      margin-top: 20px;
-      padding: 10px 10px;
-      background-color: #ff6b6b;
-      color: white;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      
-    }
-
-    #reset:hover {
-      background-color: #ff4c4c;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Scoreboard Controller</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
-  <h1>Flag Football Scoreboard - Cetys Universidad</h1>
-  <div class="scoreboard">
-    <div class="team">
-      <h2>Equipo Local</h2>
-      <div id="homeScore" class="score">00</div>
-      <div class="buttons">
-        <button id="homeAdd6">Touchdown +6</button>
-        <button id="homeAdd1">Conversión +1</button>
-        <button id="homeAdd2">Conversión +2</button>
-        <button id="homeSubtract6">-6</button>
-        <button id="homeSubtract1">-1</button>
-        <button id="homeSubtract2">-2</button>
-      </div>
-    </div>
-    <div class="team">
-      <h2>Equipo Visitante</h2>
-      <div id="awayScore" class="score">00</div>
-      <div class="buttons">
-        <button id="awayAdd6">Touchdown +6</button>
-        <button id="awayAdd1">Conversión +1</button>
-        <button id="awayAdd2">Conversión +2</button>
-        <button id="awaySubtract6">-6</button>
-        <button id="awaySubtract1">-1</button>
-        <button id="awaySubtract2">-2</button>
-      </div>
-    </div>
-  </div>
-  <button id="reset">Resetear</button>
-</body>
+<style>
+  :root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --text-color: #ecf0f1;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+}
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sport-selector select {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.sport-selector select option {
+    background: white;
+    color: var(--primary-color);
+    padding: 10px;
+}
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.team {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    color: var(--primary-color);
+}
+
+.team-header {
+    margin-bottom: 1.5rem;
+}
+
+.team-name-input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--accent-color);
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.team-name-input::placeholder {
+    color: rgba(44, 62, 80, 0.6);
+}
+
+.score-display {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.score {
+    font-size: 5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.score-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.score-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.score-btn:hover {
+    transform: scale(1.1);
+}
+
+.score-btn.increment {
+    background: var(--success-color);
+}
+
+.score-btn.decrement {
+    background: var(--danger-color);
+}
+
+.quick-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.quick-points button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: 500;
+}
+
+.quick-points button:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
+
+.controls-center {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding: 1rem;
+}
+
+.reset-btn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--danger-color);
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.reset-btn:hover {
+    transform: scale(1.05);
+}
+
+.period-control {
+    text-align: center;
+    color: var(--text-color);
+}
+
+.period-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.period-display span {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.period-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.period-buttons button {
+    padding: 0.25rem 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.period-buttons button:hover {
+    background: var(--secondary-color);
+}
+</style>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sports Scoreboard Controller</h1>
+            <div class="sport-selector">
+                <select id="sportType">
+                    <option value="football">Football/Flag</option>
+                    <option value="basketball">Basketball</option>
+                    <option value="volleyball">Volleyball</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="scoreboard">
+            <div class="team home">
+                <div class="team-header">
+                    <input type="text" id="homeTeamName" placeholder="Home Team" class="team-name-input">
+                </div>
+                <div class="score-display">
+                    <div id="homeScore" class="score">00</div>
+                    <div class="score-controls">
+                        <button class="score-btn increment">+</button>
+                        <button class="score-btn decrement">−</button>
+                    </div>
+                </div>
+                <div class="quick-points" id="homeQuickPoints"></div>
+            </div>
+
+            <div class="controls-center">
+                <button id="resetBtn" class="reset-btn">Reset Game</button>
+                <div class="period-control">
+                    <span>Period</span>
+                    <div class="period-display">
+                        <span id="periodNumber">1</span>
+                        <div class="period-buttons">
+                            <button id="periodUp">▲</button>
+                            <button id="periodDown">▼</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team away">
+                <div class="team-header">
+                    <input type="text" id="awayTeamName" placeholder="Away Team" class="team-name-input">
+                </div>
+                <div class="score-display">
+                    <div id="awayScore" class="score">00</div>
+                    <div class="score-controls">
+                        <button class="score-btn increment">+</button>
+                        <button class="score-btn decrement">−</button>
+                    </div>
+                </div>
+                <div class="quick-points" id="awayQuickPoints"></div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="app.js"></script>
+</body>
 </html>
